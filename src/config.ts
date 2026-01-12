@@ -12,7 +12,7 @@ import {
 } from './types.js';
 
 const CLAUDE_DIR = path.join(os.homedir(), '.claude');
-const SETTINGS_FILE = path.join(CLAUDE_DIR, 'settings.json');
+const CLAUDE_CONFIG_FILE = path.join(os.homedir(), '.claude.json');
 const PLUGIN_DATA_DIR = path.join(CLAUDE_DIR, 'mcplite');
 const USER_REGISTRY_FILE = path.join(PLUGIN_DATA_DIR, 'registry.json');
 const USER_PROFILES_FILE = path.join(PLUGIN_DATA_DIR, 'profiles.json');
@@ -37,11 +37,11 @@ export function ensureDirectories(): void {
 }
 
 export function readClaudeSettings(): ClaudeSettings {
-  if (!fs.existsSync(SETTINGS_FILE)) {
+  if (!fs.existsSync(CLAUDE_CONFIG_FILE)) {
     return { mcpServers: {} };
   }
 
-  const content = fs.readFileSync(SETTINGS_FILE, 'utf-8');
+  const content = fs.readFileSync(CLAUDE_CONFIG_FILE, 'utf-8');
   const parsed = JSON.parse(content);
   return ClaudeSettingsSchema.parse(parsed);
 }
@@ -50,13 +50,13 @@ export function writeClaudeSettings(settings: ClaudeSettings): void {
   ensureDirectories();
 
   // Create backup before writing
-  if (fs.existsSync(SETTINGS_FILE)) {
-    const backupPath = path.join(PLUGIN_DATA_DIR, `settings.backup.${Date.now()}.json`);
-    fs.copyFileSync(SETTINGS_FILE, backupPath);
+  if (fs.existsSync(CLAUDE_CONFIG_FILE)) {
+    const backupPath = path.join(PLUGIN_DATA_DIR, `claude-config.backup.${Date.now()}.json`);
+    fs.copyFileSync(CLAUDE_CONFIG_FILE, backupPath);
 
     // Keep only last 5 backups
     const backups = fs.readdirSync(PLUGIN_DATA_DIR)
-      .filter(f => f.startsWith('settings.backup.'))
+      .filter(f => f.startsWith('claude-config.backup.'))
       .sort()
       .reverse();
 
@@ -65,7 +65,7 @@ export function writeClaudeSettings(settings: ClaudeSettings): void {
     });
   }
 
-  fs.writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2));
+  fs.writeFileSync(CLAUDE_CONFIG_FILE, JSON.stringify(settings, null, 2));
 }
 
 export function getRegistry(): Registry {
@@ -284,7 +284,7 @@ export function setLastUsedProfile(profileId: string): void {
 
 export const paths = {
   CLAUDE_DIR,
-  SETTINGS_FILE,
+  CLAUDE_CONFIG_FILE,
   PLUGIN_DATA_DIR,
   USER_REGISTRY_FILE,
   USER_PROFILES_FILE,
