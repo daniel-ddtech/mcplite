@@ -1,0 +1,16 @@
+{
+  "name": "mcplite",
+  "version": "0.1.0",
+  "description": "Lighter context - load only the MCPs you need",
+  "author": {
+    "name": "ddtech",
+    "url": "https://github.com/ddtech"
+  },
+  "homepage": "https://github.com/ddtech/mcplite",
+  "repository": "https://github.com/ddtech/mcplite",
+  "license": "MIT",
+  "keywords": ["mcp", "context", "optimization", "profiles", "lite"],
+
+  "commands": "./commands/",
+  "hooks": "./hooks/hooks.json"
+}

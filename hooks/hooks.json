@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/dist/cli.js prompt --startup 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

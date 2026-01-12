@@ -1,0 +1,27 @@
+{
+  "name": "mcplite",
+  "owner": {
+    "name": "ddtech"
+  },
+  "metadata": {
+    "description": "mcplite - Lighter context for Claude Code",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "mcplite",
+      "source": "./",
+      "description": "Lighter context - load only the MCPs you need",
+      "version": "0.1.0",
+      "author": {
+        "name": "ddtech"
+      },
+      "homepage": "https://github.com/ddtech/mcplite",
+      "repository": "https://github.com/ddtech/mcplite",
+      "license": "MIT",
+      "keywords": ["mcp", "context", "optimization", "profiles", "lite"],
+      "category": "productivity",
+      "tags": ["mcp", "context-management", "workflow", "lite"]
+    }
+  ]
+}

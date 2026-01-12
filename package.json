@@ -1,0 +1,57 @@
+{
+  "name": "mcplite",
+  "version": "0.1.0",
+  "description": "Lighter satisfying context - load only the MCPs you need",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mcplite": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "test": "vitest",
+    "postinstall": "npm run build || true",
+    "setup": "bash scripts/post-install.sh",
+    "install:local": "npm run build && bash scripts/post-install.sh",
+    "install:global": "npm install -g . && npm run setup"
+  },
+  "keywords": [
+    "claude",
+    "mcp",
+    "context",
+    "optimization",
+    "claude-code",
+    "plugin"
+  ],
+  "author": "ddtech",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddtech/mcplite"
+  },
+  "files": [
+    "dist/",
+    ".claude-plugin/",
+    "commands/",
+    "hooks/",
+    "scripts/",
+    "data/"
+  ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "inquirer": "^9.2.23",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
