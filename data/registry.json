@@ -1,5 +1,5 @@
 {
-  "$schema": "https://claude-mcp-manager.dev/schema/registry.json",
+  "$schema": "https://mcplite.dev/schema/registry.json",
   "version": "1.0.0",
   "mcps": {
     "supabase": {
@@ -23,7 +23,7 @@
     },
     "apify": {
       "name": "Apify",
-      "description": "Web scraping, automation, and data extraction",
+      "description": "Web scraping, automation, and data extraction from any website",
       "source": "npm:@apify/actors-mcp-server",
       "tags": ["scraping", "web", "automation", "data"],
       "tokenCost": 7200,
@@ -59,90 +59,78 @@
         "files": []
       }
     },
-    "pg": {
-      "name": "PostgreSQL Docs",
-      "description": "PostgreSQL documentation and query assistance",
-      "source": "npm:@anthropic/pg-mcp-server",
-      "tags": ["database", "postgres", "sql"],
+    "filesystem": {
+      "name": "Filesystem",
+      "description": "Read/write files, create directories, search files",
+      "source": "npm:@modelcontextprotocol/server-filesystem",
+      "tags": ["files", "filesystem", "directories"],
+      "tokenCost": 450,
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "${HOME}"]
+      },
+      "detection": {
+        "packages": [],
+        "envVars": [],
+        "files": []
+      }
+    },
+    "slack": {
+      "name": "Slack",
+      "description": "Send messages, list channels, reply to threads in Slack",
+      "source": "npm:@modelcontextprotocol/server-slack",
+      "tags": ["slack", "messaging", "communication"],
+      "tokenCost": 500,
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-slack"],
+        "env": {
+          "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+          "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+        }
+      },
+      "detection": {
+        "packages": ["@slack/web-api", "@slack/bolt"],
+        "envVars": ["SLACK_BOT_TOKEN", "SLACK_TOKEN"],
+        "files": []
+      }
+    },
+    "notion": {
+      "name": "Notion",
+      "description": "Read and write Notion pages, databases, and blocks",
+      "source": "npm:@notionhq/notion-mcp-server",
+      "tags": ["notion", "notes", "documentation", "wiki"],
+      "tokenCost": 800,
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@notionhq/notion-mcp-server"],
+        "env": {
+          "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer ${NOTION_API_KEY}\", \"Notion-Version\": \"2022-06-28\"}"
+        }
+      },
+      "detection": {
+        "packages": ["@notionhq/client"],
+        "envVars": ["NOTION_API_KEY", "NOTION_TOKEN"],
+        "files": []
+      }
+    },
+    "sentry": {
+      "name": "Sentry",
+      "description": "Error tracking, issue management, and performance monitoring",
+      "source": "npm:@sentry/mcp-server",
+      "tags": ["errors", "monitoring", "debugging", "performance"],
       "tokenCost": 600,
       "config": {
         "command": "npx",
-        "args": ["-y", "@anthropic/pg-mcp-server"]
-      },
-      "detection": {
-        "packages": ["pg", "postgres", "@prisma/client"],
-        "envVars": ["DATABASE_URL", "POSTGRES_URL"],
-        "files": ["prisma/schema.prisma"]
-      }
-    },
-    "github": {
-      "name": "GitHub",
-      "description": "GitHub repository operations, issues, PRs",
-      "source": "npm:@anthropic/github-mcp-server",
-      "tags": ["git", "github", "vcs"],
-      "tokenCost": 1200,
-      "config": {
-        "command": "npx",
-        "args": ["-y", "@anthropic/github-mcp-server"],
+        "args": ["-y", "@sentry/mcp-server"],
         "env": {
-          "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+          "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}"
         }
       },
       "detection": {
-        "packages": ["@octokit/rest", "@octokit/core"],
-        "envVars": ["GITHUB_TOKEN"],
-        "files": [".github/workflows"]
-      }
-    },
-    "posthog": {
-      "name": "PostHog",
-      "description": "Product analytics, feature flags, experiments",
-      "source": "npm:@posthog/mcp-server",
-      "tags": ["analytics", "tracking", "experiments"],
-      "tokenCost": 4500,
-      "config": {
-        "command": "npx",
-        "args": ["-y", "@posthog/mcp-server"],
-        "env": {
-          "POSTHOG_API_KEY": "${POSTHOG_API_KEY}"
-        }
-      },
-      "detection": {
-        "packages": ["posthog-js", "posthog-node"],
-        "envVars": ["POSTHOG_API_KEY", "NEXT_PUBLIC_POSTHOG_KEY"],
-        "files": []
-      }
-    },
-    "fetch": {
-      "name": "Web Fetch",
-      "description": "Fetch and parse web pages",
-      "source": "npm:@anthropic/fetch-mcp-server",
-      "tags": ["web", "fetch", "http"],
-      "tokenCost": 400,
-      "config": {
-        "command": "npx",
-        "args": ["-y", "@anthropic/fetch-mcp-server"]
-      },
-      "detection": {
-        "packages": [],
-        "envVars": [],
-        "files": []
-      }
-    },
-    "filesystem": {
-      "name": "Filesystem",
-      "description": "Extended file system operations",
-      "source": "npm:@anthropic/filesystem-mcp-server",
-      "tags": ["files", "filesystem"],
-      "tokenCost": 350,
-      "config": {
-        "command": "npx",
-        "args": ["-y", "@anthropic/filesystem-mcp-server"]
-      },
-      "detection": {
-        "packages": [],
-        "envVars": [],
-        "files": []
+        "packages": ["@sentry/node", "@sentry/react", "@sentry/nextjs"],
+        "envVars": ["SENTRY_DSN", "SENTRY_AUTH_TOKEN"],
+        "files": ["sentry.client.config.ts", "sentry.server.config.ts"]
       }
     }
   }

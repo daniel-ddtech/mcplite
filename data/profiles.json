@@ -1,44 +1,50 @@
 {
-  "$schema": "https://claude-mcp-manager.dev/schema/profiles.json",
+  "$schema": "https://mcplite.dev/schema/profiles.json",
   "version": "1.0.0",
   "defaultProfile": "minimal",
   "startupBehavior": "prompt",
   "profiles": {
     "minimal": {
-      "description": "Lightweight setup for general coding",
+      "description": "Lightweight setup for general coding with web search",
       "icon": "rocket",
       "mcps": ["exa"],
       "estimatedTokens": 650
     },
     "database": {
-      "description": "Full database tooling for Supabase/PostgreSQL projects",
+      "description": "Full database tooling for Supabase projects",
       "icon": "database",
-      "mcps": ["supabase", "pg"],
-      "estimatedTokens": 6400
+      "mcps": ["supabase"],
+      "estimatedTokens": 5800
     },
     "scraping": {
       "description": "Web scraping and data collection",
       "icon": "spider",
-      "mcps": ["apify", "exa", "fetch"],
-      "estimatedTokens": 8250
+      "mcps": ["apify", "exa"],
+      "estimatedTokens": 7850
     },
     "research": {
       "description": "Web research and documentation",
       "icon": "magnify",
-      "mcps": ["exa", "fetch"],
+      "mcps": ["exa", "notion"],
+      "estimatedTokens": 1450
+    },
+    "devops": {
+      "description": "Error tracking and file operations",
+      "icon": "gear",
+      "mcps": ["sentry", "filesystem"],
       "estimatedTokens": 1050
     },
-    "analytics": {
-      "description": "Product analytics and experiments",
-      "icon": "chart",
-      "mcps": ["posthog", "supabase"],
-      "estimatedTokens": 10300
+    "communication": {
+      "description": "Team communication and documentation",
+      "icon": "chat",
+      "mcps": ["slack", "notion"],
+      "estimatedTokens": 1300
     },
     "full": {
       "description": "All available MCPs loaded",
       "icon": "layers",
-      "mcps": ["supabase", "apify", "exa", "pg", "github", "posthog", "fetch", "filesystem"],
-      "estimatedTokens": 20700
+      "mcps": ["supabase", "apify", "exa", "filesystem", "slack", "notion", "sentry"],
+      "estimatedTokens": 16000
     },
     "empty": {
       "description": "No MCPs - maximum context available",

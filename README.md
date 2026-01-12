@@ -2,7 +2,7 @@
 
 **Lighter context for Claude Code** - Load only the MCPs you need.
 
-Each MCP server consumes context tokens (350-7,200+ tokens). With multiple MCPs enabled, you can lose 20,000+ tokens before writing a single prompt. mcplite lets you dynamically manage which MCPs are active, preserving your context window for what matters.
+Each MCP server consumes context tokens (450-7,200+ tokens). With multiple MCPs enabled, you can lose 16,000+ tokens before writing a single prompt. mcplite lets you dynamically manage which MCPs are active, preserving your context window for what matters.
 
 ## Installation
 
@@ -37,25 +37,27 @@ Pre-configured MCP combinations for common workflows:
 | Profile | MCPs | Tokens | Use Case |
 |---------|------|--------|----------|
 | **minimal** | exa | 650 | General coding with web search |
-| **research** | exa, fetch | 1,050 | Web research and documentation |
-| **database** | supabase, pg | 6,400 | Database-heavy projects |
-| **scraping** | apify, exa, fetch | 8,250 | Web scraping and data collection |
-| **analytics** | posthog, supabase | 10,300 | Product analytics work |
-| **full** | all 8 MCPs | 20,700 | Everything enabled |
+| **research** | exa, notion | 1,450 | Web research and documentation |
+| **devops** | sentry, filesystem | 1,050 | Error tracking and file ops |
+| **communication** | slack, notion | 1,300 | Team communication |
+| **database** | supabase | 5,800 | Database-heavy projects |
+| **scraping** | apify, exa | 7,850 | Web scraping and data collection |
+| **full** | all 7 MCPs | 16,000 | Everything enabled |
 | **empty** | none | 0 | Maximum context available |
 
 ## Supported MCPs
 
-| MCP | Tokens | Description |
-|-----|--------|-------------|
-| **Supabase** | 5,800 | Database, auth, storage, edge functions |
-| **Apify** | 7,200 | Web scraping and automation |
-| **PostHog** | 4,500 | Product analytics and experiments |
-| **GitHub** | 1,200 | Repository operations, issues, PRs |
-| **Exa** | 650 | AI-powered web search |
-| **PostgreSQL** | 600 | PostgreSQL documentation |
-| **Fetch** | 400 | Web page fetching |
-| **Filesystem** | 350 | Extended file operations |
+All packages verified on npm as of January 2025:
+
+| MCP | Package | Tokens | Description |
+|-----|---------|--------|-------------|
+| **Supabase** | `@supabase/mcp-server-supabase` | 5,800 | Database, auth, storage, edge functions |
+| **Apify** | `@apify/actors-mcp-server` | 7,200 | Web scraping and automation |
+| **Exa** | `exa-mcp-server` | 650 | AI-powered web search |
+| **Notion** | `@notionhq/notion-mcp-server` | 800 | Pages, databases, blocks |
+| **Sentry** | `@sentry/mcp-server` | 600 | Error tracking and monitoring |
+| **Slack** | `@modelcontextprotocol/server-slack` | 500 | Messaging and channels |
+| **Filesystem** | `@modelcontextprotocol/server-filesystem` | 450 | File operations |
 
 ## Auto-Detection
 
@@ -63,7 +65,7 @@ mcplite automatically detects your project dependencies and suggests the optimal
 
 - Detects `package.json` dependencies (e.g., `@supabase/supabase-js`)
 - Reads `.env` files for API keys (e.g., `SUPABASE_URL`)
-- Checks for marker files (e.g., `supabase/config.toml`, `prisma/schema.prisma`)
+- Checks for marker files (e.g., `supabase/config.toml`, `sentry.client.config.ts`)
 
 ## CLI Usage
 
@@ -75,7 +77,7 @@ mcplite status
 mcplite profile apply database
 
 # Enable specific MCPs
-mcplite enable supabase pg
+mcplite enable supabase exa
 
 # Disable MCPs
 mcplite disable apify
@@ -98,14 +100,27 @@ Settings are applied to `~/.claude/settings.json`.
 
 ## Environment Variables
 
-Set these in your shell or `.env` file for MCPs that require authentication:
+Set these for MCPs that require authentication:
 
 ```bash
+# Supabase
 SUPABASE_ACCESS_TOKEN=your_token
+
+# Apify
 APIFY_TOKEN=your_token
+
+# Exa
 EXA_API_KEY=your_key
-GITHUB_TOKEN=your_token
-POSTHOG_API_KEY=your_key
+
+# Notion
+NOTION_API_KEY=your_key
+
+# Sentry
+SENTRY_AUTH_TOKEN=your_token
+
+# Slack
+SLACK_BOT_TOKEN=xoxb-your-token
+SLACK_TEAM_ID=T0123456789
 ```
 
 ## Requirements
